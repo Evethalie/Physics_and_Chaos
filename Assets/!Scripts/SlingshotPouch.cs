@@ -12,10 +12,16 @@ public class SlingshotPouch : MonoBehaviour
     [SerializeField] private float maxStretch = 0.45f;
     [SerializeField] private Transform ammoSpawn;
     [SerializeField] private GameObject ammoPrefab;
-    [SerializeField] private float launchPower = 12f;
+    [SerializeField] private float launchPower = 15f;
     [SerializeField] private float reloadDelay = 1.5f;
 
     private GameObject loadedAmmo;
+
+    [SerializeField] private Transform postLeft;
+    [SerializeField] private Transform postRight;
+    [SerializeField] private LineRenderer bandLeft;
+    [SerializeField] private LineRenderer bandRight;
+
 
     private void Awake()
     {
@@ -87,7 +93,18 @@ public class SlingshotPouch : MonoBehaviour
         {
             loadedAmmo.transform.position = transform.position;
         }
+        DrawBands();
 
     }
+
+    private void DrawBands()
+    {
+        bandLeft.SetPosition(0, postLeft.position);
+        bandLeft.SetPosition(1, transform.position);
+
+        bandRight.SetPosition(0, postRight.position);
+        bandRight.SetPosition(1, transform.position);
+    }
+
 
 }
