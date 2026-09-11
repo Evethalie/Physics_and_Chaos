@@ -5,18 +5,18 @@ public class Pig : MonoBehaviour
 {
     [Header("Death Thresholds")]
     [Tooltip("Impact speed from a bird collision needed to kill this pig.")]
-    public float birdHitThreshold = 3f;
+    [SerializeField] private float birdHitThreshold = 3f;
 
-    [Tooltip("Impact speed from ANY collision for hitting the ground after falling off a building) needed to kill this pig.")]
-    public float fallDamageThreshold = 6f;
+    [Tooltip("Impact speed from ANY collision - like hitting the ground after falling off a building.")]
+    [SerializeField] private float fallDamageThreshold = 6f;
 
-    public GameObject deathEffectPrefab;
+    [SerializeField] private GameObject deathEffectPrefab;
 
-    bool isDead;
+    private bool isDead;
 
-    void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (isDead) return;
+        if (isDead) { return; }
 
         float impactSpeed = collision.relativeVelocity.magnitude;
         bool hitByBird = collision.gameObject.CompareTag("Bird");
@@ -33,16 +33,19 @@ public class Pig : MonoBehaviour
         }
     }
 
-    void Die()
+    private void Die()
     {
-        if (isDead) return;
         isDead = true;
 
         if (deathEffectPrefab != null)
+        {
             Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
+        }
 
         if (GameManager.Instance != null)
+        {
             GameManager.Instance.OnPigDied();
+        }
 
         Destroy(gameObject);
     }
